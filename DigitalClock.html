@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>React Digital Clock</title>
+        <script crossorigin
+                src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin
+                src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script crossorigin
+                src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background: linear-gradient(to right, #1f4037, #99f2c8);
+                margin: 0;
+            }
+            #reactDiv {
+                background: rgba(255, 255, 255, 0.1);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                color: white;
+                font-size: 2em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="reactDiv"></div>
+        <script type="text/babel">
+            const rootNode = ReactDOM.createRoot(document.getElementById("reactDiv"));
+
+            class DigitalClock extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        time: new Date()
+                    };
+                }
+
+                componentDidMount() {
+                    this.timerID = setInterval(() => this.tick(), 1000);
+                }
+
+                componentWillUnmount() {
+                    clearInterval(this.timerID);
+                }
+
+                tick() {
+                    this.setState({
+                        time: new Date()
+                    });
+                }
+
+                render() {
+                    const { time } = this.state;
+                    const dateString = time.toLocaleDateString();
+                    const timeString = time.toLocaleTimeString();
+                    return (
+                        <div>
+                            <p>{dateString}</p>
+                            <p>{timeString}</p>
+                        </div>
+                    );
+                }
+            }
+
+            rootNode.render(<DigitalClock />);
+        </script>
+    </body>
+</html>
